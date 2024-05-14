@@ -8,10 +8,6 @@ function Feed() {
     <div className='feed'>
       <NotesBox/>
       <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
     </div>
   )
 }

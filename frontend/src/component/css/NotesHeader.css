@@ -121,7 +121,8 @@
 
 .modal__title {
   display: flex;
-  align-items: center;
+  align-items: center;  
+  margin-top: -20px;
   margin-bottom: -5px;
   border-bottom: 1px solid rgba(187, 187, 187, 0.5);
 }

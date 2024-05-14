@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const url = 
-"mongodb+srv://josejoy567:josejoy567@cluster0.llpaxc1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+"mongodb+srv://josejoy567:josejoy567@cluster0.llpaxc1.mongodb.net/quicknote-mern?retryWrites=true&w=majority&appName=Cluster0"
 
 module.exports.connect = () =>{
     mongoose.connect(url, {
