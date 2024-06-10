@@ -8,6 +8,7 @@ function App() {
       <Notes/>
     </div>
   );
+
 }
 
 export default App;

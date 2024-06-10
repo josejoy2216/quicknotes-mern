@@ -2,13 +2,30 @@ import React, { useState } from 'react'
 import './css/Post.css'
 import { Avatar } from '@material-ui/core'
 import CloseIcon from "@material-ui/icons/Close"
-import { ArrowDownwardOutlined, ArrowUpwardOutlined, ChatBubbleOutlined, MoreHorizOutlined, RepeatOneOutlined, ShareOutlined } from '@material-ui/icons'
+import { 
+  ArrowDownwardOutlined, 
+  ArrowUpwardOutlined, 
+  ChatBubbleOutlined, 
+  MoreHorizOutlined, 
+  RepeatOneOutlined, 
+  ShareOutlined 
+} from '@material-ui/icons'
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import ReactQuill from 'react-quill'
+import ReactTimeAgo from "react-time-ago";
 import "react-quill/dist/quill.snow.css";
 
-function Post() {
+
+function LastSeen({ date }) {
+  return (
+    <div>
+      <ReactTimeAgo date={date} locale="en-US" timeStyle="round" />
+    </div>
+  );
+}
+
+function Post({post}) {
   const [isModalOpen , setIsModalOpen] = useState(false)
   const Close = (<CloseIcon />)
 
@@ -17,13 +34,23 @@ function Post() {
       <div className='post__info'>
         <Avatar/>
         <h4> User Name</h4>
-        <small>Timestamp </small>
+        <small>
+           <LastSeen date={post?.createdAt} />
+        </small>
       </div>
       
-      <div className='post__body'>
-        <div className='post__question'>
-          <p> This is a test question  </p>
-          <button onClick={() => setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
+      <div className="post__body">
+        <div className="post__question">
+          <p>{post?.questionName}</p>
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+              console.log(post?._id);
+            }}
+            className="post__btnAnswer"
+          >
+            Answer
+          </button>
           <Modal
           open={isModalOpen}
           closeIcon={Close}
@@ -37,11 +64,14 @@ function Post() {
             },
           }}
           >
-              <div className='modal__question'>  
-                <h1> This is the test question</h1>
-                <p> asked by {" "} 
-                <span className='name'>Username</span>{" "} on {" "} 
-                <span className='name'>Timestamp</span> </p>
+              <div className="modal__question">
+              <h1>{post?.questionName}</h1>
+              <p>
+                asked by <span className="name">{post?.user?.userName}</span> on{" "}
+                <span className="name">
+                  {new Date(post?.createdAt).toLocaleString()}
+                </span>
+              </p>
               </div>
               <div className='modal__answer'> 
                 <ReactQuill placeholder='Enter your answer'/>

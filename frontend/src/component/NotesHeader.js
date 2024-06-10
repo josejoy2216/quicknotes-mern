@@ -1,30 +1,51 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import FeaturedPlayListOutlinedIcon from "@material-ui/icons/FeaturedPlayListOutlined";
 import {
-    AssignmentTurnedInOutlined,
-    PeopleAltOutlined,
-    NotificationsOutlined,
-    Search,
-    ExpandMore,
-    
-}from "@material-ui/icons";
-import CloseIcon from "@material-ui/icons/Close"
-import {Avatar , Button, Input } from "@material-ui/core";
-import './css/NotesHeader.css';
+  AssignmentTurnedInOutlined,
+  // Close,
+  NotificationsOutlined,
+  PeopleAltOutlined,
+  Search,
+  ExpandMore,
+} from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
+import { Avatar, Button, Input } from "@material-ui/core";
+import "./css/NotesHeader.css";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
-
-
-
+import axios from "axios";
 
 
 function NotesHeader() {
-
-    const [isModalOpen , setIsModalOpen] = useState(false)
-    const [inputUrl , setInputUrl] = useState("")
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [inputUrl, setInputUrl] = useState("");
+    const [question, setQuestion] = useState("");
     const Close = (<CloseIcon />)
 
+    const handleSubmit = async () => {
+        if(question !== ""){
+            const config ={
+                header :{
+                    "Content-Type":"application/json"
+                }
+            }
+            const body = {
+                questionName: question,
+                questionUrl: inputUrl
+            }
+            await axios
+            .post('http://localhost:80/api/questions', body, config)
+            .then((res)=>{
+                console.log(res.data)
+                alert(res.data.message)
+            })
+            .catch((e)=>{
+                console.log(e)
+                alert('Error in adding question')
+            });
+        }   
+    };
 
   return (
     <div className="qHeader">
@@ -88,6 +109,8 @@ function NotesHeader() {
                     </div>
                     <div className="modal__Field">
                         <Input 
+                        value = {question}
+                        onChange={(e)=> setQuestion(e.target.value)}
                         type = "text " 
                         placeholder = "Start your question with 'What' , 'How' , 'Why' , 'etc.'" 
                         />
@@ -128,7 +151,7 @@ function NotesHeader() {
                     <button className="cancle" onClick={() => setIsModalOpen(false)}>
                         Cancel
                     </button>
-                    <button  type="submit" className="add">
+                    <button onClick={handleSubmit} type="submit" className="add">
                         Add Question
                     </button>
                 </div>
@@ -137,7 +160,7 @@ function NotesHeader() {
         </div>
   </div>
   
-  )
+  );
 }
 
 export default NotesHeader

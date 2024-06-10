@@ -5,7 +5,7 @@ const questionRouter = require("./Question");
 const answerRouter = require("./Answer");
 
 router.get("/", (req, res) => {
-  res.send("This api is reserved for quora clone");
+  res.send("This api is reserved for Quicknotes clone");
 });
 
 router.use("/questions", questionRouter);
